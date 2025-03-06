@@ -12,8 +12,10 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
+    // Dependency injection of UserRepository
     private final UserRepository userRepository;
 
+    // Constructor to initialize UserRepository
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -23,6 +25,7 @@ public class UserService {
      * @return List of UserDTO objects.
      */
     public List<UserDTO> getAllUsers() {
+        // Fetch all users, map each user to UserDTO, and collect as a list
         return userRepository.findAll().stream()
                 .map(user -> new UserDTO(user.getId(), user.getName(), user.getEmail()))
                 .collect(Collectors.toList());
@@ -34,6 +37,7 @@ public class UserService {
      * @return Optional containing UserDTO if found.
      */
     public Optional<UserDTO> getUserById(Long id) {
+        // Find user by ID and map to UserDTO if present
         return userRepository.findById(id)
                 .map(user -> new UserDTO(user.getId(), user.getName(), user.getEmail()));
     }
@@ -44,6 +48,7 @@ public class UserService {
      * @return The saved user.
      */
     public User createUser(User user) {
+        // Save the new user entity to the database
         return userRepository.save(user);
     }
 
@@ -54,6 +59,7 @@ public class UserService {
      * @return Optional containing updated User entity.
      */
     public Optional<User> updateUser(Long id, User updatedUser) {
+        // Find user by ID, update fields if present, and save the updated user
         return userRepository.findById(id).map(existingUser -> {
             existingUser.setName(updatedUser.getName());
             existingUser.setEmail(updatedUser.getEmail());
@@ -68,6 +74,7 @@ public class UserService {
      * @return True if deleted, false if not found.
      */
     public boolean deleteUser(Long id) {
+        // Check if user exists by ID, delete if present
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
             return true;

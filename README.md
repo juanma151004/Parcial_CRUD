@@ -1,126 +1,156 @@
-API - Person and orders Endpoints 📚
+# 📌 **Spring Boot CRUD API - Order Management System**
 
-This API provides operations to manage persons in the orders system.
+This project is a REST API built with **Spring Boot**, enabling management of users, orders, products, and categories. 
+It uses **Spring Data JPA** for database persistence and **Lombok** to reduce code verbosity.
 
-Database Schema:
+## 🚀 **Technologies Used**
+- Java 17
+- Spring Boot 3.x
+- Spring Data JPA (Hibernate)
+- Lombok
+- PostgreSQL / MySQL (configurable)
+- Docker
 
-The image shows a database schema with five tables: User, Order, OrderDetail, Product and Category. The books table contains id (book ID), title (book title), and person_id (a foreign key linking to the people table). The people table has id (person ID) and name (person's name). The relationship indicates that each book is associated with a person, likely the author.
+---
 
-![Postman_figure1](./assets/schema.jpg)
+## 📂 **Project Structure**
+```
+/src/main/java/com/example/demo
+│── controllers/      # REST Controllers (UserController, OrderController, etc.)
+│── dtos/             # Data Transfer Objects (UserDTO, OrderDTO, etc.)
+│── models/           # JPA Entities (User, Order, Product, etc.)
+│── repositories/     # Database access interfaces (UserRepository, etc.)
+│── services/         # Business logic (UserService, OrderService, etc.)
+└── DemoApplication   # Application entry point
+```
 
-Postman Test:
+---
 
-Base URL
+## ⚙ **Project Setup**
 
-http://localhost:9090/demo/persons
+### 1️⃣ **Clone the Repository**
+```bash
+git clone https://github.com/juanma151004/Parcial_CRUD.git
+cd Parcial_CRUD
+```
 
-or
+### 2️⃣ **Configure the Database**
+Edit `src/main/resources/application.properties`:
 
-http://localhost:9090/demo/books
+```properties
+spring.datasource.url= jdbc:mysql://localhost:5500/db_eam?serverTimezone=UTC&createDatabaseIfNotExist=true
+spring.datasource.username=root
+spring.datasource.password=2320183A6A5FB
+spring.jpa.hibernate.ddl-auto=update
+```
 
-📌 GET: Retrieve all persons
 
-Endpoint:
+### 3️⃣ **Run the Project**
+``bash
+`src/main/java/com/example/demo`
+"Demo2Application.java"
+"press RUN between line 9 and 10"
+``
+The API will run at: `http://localhost:4500`
 
-List People:
+---
 
-GET /demo/person
+## 🔥 **Available Endpoints**
+All responses are in `JSON` format.
 
-![Postman_figure1](./assets/figure_1.jpg)
+### 🧑 **Users (`/users`)**
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| `GET` | `/users` | Get all users |
+| `GET` | `/users/{id}` | Get a user by ID |
+| `POST` | `/users` | Create a user |
+| `PUT` | `/users/{id}` | Update a user |
+| `DELETE` | `/users/{id}` | Delete a user |
 
-Description:
-Retrieves a list of all people registered in the system.
-
-GET /demo/book/id
-
-![Postman_figure1](./assets/book.jpg)
-
-Description:
-Retrieves a book instance.
-
-📌 POST: Create a new person
-
-Endpoint:
-
-POST /demo/persons
-
-![Postman_figure1](./assets/create.jpg)
-
-Description:
-Creates a new person in the library system.
-
-Request Body:
-
+📌 **Example `POST /users`**  
+```json
 {
-  "name": "Cristiano Ronaldo"
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "12345"
 }
+```
 
-verify:
+---
 
-![Postman_figure1](./assets/verify.jpg)
+### 📦 **Products (`/products`)**
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| `GET` | `/products` | Get all products |
+| `GET` | `/products/{id}` | Get a product by ID |
+| `POST` | `/products` | Create a product |
+| `PUT` | `/products/{id}` | Update a product |
+| `DELETE` | `/products/{id}` | Delete a product |
 
-POST /demo/books
-
-Description:
-
-Creates a new book in the library system.
-
-![Postman_figure1](./assets/create_book.jpg)
-
-Request body: 
+📌 **Example `POST /products`**  
+```json
 {
-    "title": "{{$randomFullName}}",
-    "person_id": 4
+  "name": "Laptop",
+  "price": 1200.50,
+  "stock": 10,
+  "categoryId": 1
 }
+```
 
-Endpoint:
+---
 
-DELETE /demo/persons/{id}
+### 📑 **Orders (`/orders`)**
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| `GET` | `/orders` | Get all orders |
+| `GET` | `/orders/{id}` | Get an order by ID |
+| `POST` | `/orders` | Create an order |
+| `PUT` | `/orders/{id}` | Update an order |
+| `DELETE` | `/orders/{id}` | Delete an order |
 
-![Postman_figure1](./assets/figure_3.jpg)
-
-Description:
-Deletes a person by their ID.
-
-Example Request:
-
-DELETE /demo/persons/3
-
-Response:
-
+📌 **Example `POST /orders`**  
+```json
 {
-  "message": "Person deleted successfully"
+  "userId": 1,
+  "orderDate": "2025-03-05"
 }
+```
 
-⚠️ Error Handling
+---
 
-If a request fails, the API will return an error message:
+### 🛒 **Order Details (`/order-details`)**
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| `GET` | `/order-details` | Get all order details |
+| `GET` | `/order-details/{id}` | Get order detail by ID |
+| `POST` | `/order-details` | Add a product to an order |
+| `PUT` | `/order-details/{id}` | Update an order detail |
+| `DELETE` | `/order-details/{id}` | Delete an order detail |
 
+📌 **Example `POST /order-details`**  
+```json
 {
-  "timestamp": "2025-03-02T01:30:35.755+00:00",
-  "status": 404,
-  "error": "Person not found",
-  "path": "/demo/persons/10"
+  "orderId": 1,
+  "productId": 2,
+  "quantity": 3
 }
+```
 
-verify:
+---
 
-Person with ID=3 isnt in database
+## 🛠 **Common Errors and Solutions**
+1️⃣ **Error:** `not-null property references a null or transient value`  
+💡 **Solution:** Ensure that all required values (`userId`, `categoryId`, etc.) are provided in the request.
 
-![Postman_figure1](./assets/figure_4.jpg)
+2️⃣ **Error:** `The given id must not be null`  
+💡 **Solution:** In `PUT` or `DELETE` requests, ensure a valid `id` is included.
 
-Person isnt over there:
+3️⃣ **Error:** `Cannot invoke "Category.getId()" because the return value of "Product.getCategory()" is null`  
+💡 **Solution:** Make sure the `Product` has a `Category` assigned before saving it.
 
+---
 
-![Postman_figure1](./assets/figure_5.jpg)
+## 🏁 **Conclusion**
+This project provides a functional CRUD with Spring Boot to manage users, orders, and products. You can use tools like **Postman** or **cURL** to test the endpoints.
 
-🛠️ Notes
-
-Ensure the request body is in valid JSON format.
-
-The DELETE operation is irreversible.
-
-Use correct IDs when making DELETE or GET requests.
-
-🚀 Happy coding!
-
+📌 **Ready! Now you can test your API at `http://localhost:4500` 🚀**

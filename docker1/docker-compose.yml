@@ -1,34 +1,34 @@
-version: '3.8'
+version: '3.8'  # Specifies the version of the Docker Compose file format
 
-services:
-  db:
-    build: 
-      context: ./MySQL
-      dockerfile: Dockerfile
-    container_name: mysql_eam
-    restart: always
-    ports:
-      - 5500:3306
-    volumes:
-      - ./MySQL/data:/var/lib/mysql 
-    hostname: apps_database
-    networks:
-      - eam_apps
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p2320183A6A5FB"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+services:  # Defines the services that will be run
+  db:  # Service name for the database
+    build:  # Specifies build options for the db service
+      context: ./MySQL  # Directory containing the Dockerfile for the db service
+      dockerfile: Dockerfile  # Name of the Dockerfile to use for building the image
+    container_name: mysql_eam  # Name of the container for the db service
+    restart: always  # Always restart the container if it stops
+    ports:  # Port mappings for the db service
+      - 5500:3306  # Maps port 5500 on the host to port 3306 in the container
+    volumes:  # Volume mappings for the db service
+      - ./MySQL/data:/var/lib/mysql  # Maps the host directory ./MySQL/data to /var/lib/mysql in the container
+    hostname: apps_database  # Sets the hostname of the container
+    networks:  # Networks to which the db service will connect
+      - eam_apps  # Connects to the eam_apps network
+    healthcheck:  # Health check configuration for the db service
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p2320183A6A5FB"]  # Command to test if the db service is healthy
+      interval: 30s  # Time between running the health check command
+      timeout: 10s  # Maximum time to wait for the health check command to complete
+      retries: 5  # Number of times to retry the health check before considering the service unhealthy
 
-  adminer:
-    image: adminer
-    container_name: adminer_wms
-    restart: always
-    ports:
-      - 8000:8080
-    networks:
-      - eam_apps
+  adminer:  # Service name for Adminer (a database management tool)
+    image: adminer  # Uses the adminer image from Docker Hub
+    container_name: adminer_wms  # Name of the container for the adminer service
+    restart: always  # Always restart the container if it stops
+    ports:  # Port mappings for the adminer service
+      - 8000:8080  # Maps port 8000 on the host to port 8080 in the container
+    networks:  # Networks to which the adminer service will connect
+      - eam_apps  # Connects to the eam_apps network
 
-networks:
-  eam_apps:
-    driver: bridge
+networks:  # Defines the networks used by the services
+  eam_apps:  # Network name
+    driver: bridge  # Specifies the network driver to use (bridge)
