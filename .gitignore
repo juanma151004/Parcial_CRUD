@@ -1,0 +1,54 @@
+# Documentation files
+HELP.md
+
+# Build and dependency files
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+pom.xml  # Typically tracked; remove if necessary
+
+# Maven Wrapper (excluding the required executable)
+.mvn/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Executable and temporary Maven files
+mvnw
+mvnw.cmd
+
+# Editor and IDE configuration files
+.vscode/
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Spring Tool Suite (STS) generated files
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# NetBeans project files
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Git configuration files (keep .gitignore tracked)
+.gitattributes
+
+# System and temporary files
+.DS_Store
+Thumbs.db
+logs/
+*.log
+hs_err_pid*
+*.swp
+*.swo
